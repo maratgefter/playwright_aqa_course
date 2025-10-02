@@ -1,0 +1,23 @@
+{
+  "name": "playwright_aqa_course",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maratgefter/playwright_aqa_course.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/maratgefter/playwright_aqa_course/issues"
+  },
+  "homepage": "https://github.com/maratgefter/playwright_aqa_course#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.55.1",
+    "@types/node": "^24.6.2"
+  }
+}
