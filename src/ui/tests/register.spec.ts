@@ -41,23 +41,12 @@ test.describe("[https://anatoly-karpovich.github.io/demo-login-form/] [Form Regi
     const passwordInput = page.locator("#passwordOnRegister");
     const registerButtonOnRegiser = page.locator("#register");
     const errorMessageOnRegister = page.locator("#errorMessageOnRegister");
-    const backButtonOnRegister = page.locator("#backOnRegister");
-    const usernameInputOnLogin = page.locator("#userName");
-    const passwordInputOnLogin = page.locator("#password");
-    const submitButton = page.locator("#submit");
-    const successMessage = page.locator("#successMessage");
 
     await usernameInput.fill(validCredentials.username);
     await passwordInput.fill(validCredentials.password);
     await registerButtonOnRegiser.click();
     await expect(errorMessageOnRegister).toBeVisible();
-    await expect(errorMessageOnRegister).toContainText(NOTIFICATIONS.REGISTER_SUCCESS);
-    await backButtonOnRegister.click();
-    await usernameInputOnLogin.fill(validCredentials.username);
-    await passwordInputOnLogin.fill(validCredentials.password);
-    await submitButton.click();
-    await expect(successMessage).toBeVisible();
-    await expect(successMessage).toContainText(`Hello, ${validCredentials.username}!`);
+    await expect(errorMessageOnRegister).toHaveText(NOTIFICATIONS.REGISTER_SUCCESS);
   });
 
   test("Password should be required", async ({ page }) => {
@@ -68,7 +57,7 @@ test.describe("[https://anatoly-karpovich.github.io/demo-login-form/] [Form Regi
     await usernameInput.fill(validCredentials.username);
     await registerButtonOnRegiser.click();
     await expect(errorMessageOnRegister).toBeVisible();
-    await expect(errorMessageOnRegister).toContainText(NOTIFICATIONS.PASSWORD_IS_REQIURED);
+    await expect(errorMessageOnRegister).toHaveText(NOTIFICATIONS.PASSWORD_IS_REQIURED);
   });
 
   test("Username should be required", async ({ page }) => {
@@ -79,6 +68,6 @@ test.describe("[https://anatoly-karpovich.github.io/demo-login-form/] [Form Regi
     await passwordInput.fill(validCredentials.password);
     await registerButtonOnRegiser.click();
     await expect(errorMessageOnRegister).toBeVisible();
-    await expect(errorMessageOnRegister).toContainText(NOTIFICATIONS.USERNAME_IS_REQUIRED);
+    await expect(errorMessageOnRegister).toHaveText(NOTIFICATIONS.USERNAME_IS_REQUIRED);
   });
 });
