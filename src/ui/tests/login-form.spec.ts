@@ -13,13 +13,13 @@
 import test, { expect } from "@playwright/test";
 
 interface ICredentials {
-  username: string;
+  name: string;
   password: string;
 }
 
 test.describe("[https://anatoly-karpovich.github.io/demo-login-form/] [Form Auth]", () => {
   const validCredentials: ICredentials = {
-    username: "test@gmail.com",
+    name: "test@gmail.com",
     password: "SecretPw123!@#"
   };
 
@@ -30,16 +30,20 @@ test.describe("[https://anatoly-karpovich.github.io/demo-login-form/] [Form Auth
     await expect(loginFormTitle).toBeVisible();
   });
 
-  test("Should be registered with valid credentials", async ({ page }) => {
+  test("Should be loged in with valid credentials", async ({ page }) => {
     const usernameInput = page.locator("#userName");
     const passwordInput = page.locator("#password");
     const registerButtonOnRegiser = page.locator("#submit");
     const successMessage = page.locator("#successMessage");
 
-    await usernameInput.fill(validCredentials.username);
+    await page.evaluate((data) => {
+      localStorage.setItem(`${data.name}`, JSON.stringify(data));
+    }, validCredentials);
+
+    await usernameInput.fill(validCredentials.name);
     await passwordInput.fill(validCredentials.password);
     await registerButtonOnRegiser.click();
     await expect(successMessage).toBeVisible();
-    await expect(successMessage).toHaveText(`Hello, ${validCredentials.username}`);
+    await expect(successMessage).toHaveText(`Hello, ${validCredentials.name}!`);
   });
 });
