@@ -17,7 +17,13 @@ import test, { expect } from "@playwright/test";
 interface ICredentials {
   name: string;
   password: string;
+}
+
+interface ICase {
+  name: string;
+  password: string;
   message: string;
+  description: string;
 }
 
 enum MESSAGES {
@@ -35,93 +41,108 @@ enum MESSAGES {
 test.describe("[https://anatoly-karpovich.github.io/demo-login-form/] [Form Auth]", () => {
   const validCredentials: ICredentials = {
     name: "test@gmail.com",
-    password: "SecretPw123!@#",
-    message: ""
+    password: "SecretPw123!@#"
   };
 
-  const invalidCredentialsLogin: ICredentials[] = [
+  const invalidCredentialsLogin: ICase[] = [
     {
       name: `${validCredentials.name}`,
       password: ``,
-      message: `${MESSAGES.passwordRequired}`
+      message: `${MESSAGES.passwordRequired}`,
+      description: "empty password"
     },
     {
       name: ``,
       password: `${validCredentials.password}`,
-      message: `${MESSAGES.loginRequired}`
+      message: `${MESSAGES.loginRequired}`,
+      description: "empty username"
     },
     {
       name: "",
       password: "",
-      message: `${MESSAGES.credentialsAreRequired}`
+      message: `${MESSAGES.credentialsAreRequired}`,
+      description: "empty username and password"
     }
   ];
 
-  const invalidCredentialsRegister: ICredentials[] = [
+  const invalidCredentialsRegister: ICase[] = [
     {
       name: `${validCredentials.name}`,
       password: ``,
-      message: `${MESSAGES.passwordRequired}`
+      message: `${MESSAGES.passwordRequired}`,
+      description: "empty password"
     },
     {
       name: ``,
       password: `${validCredentials.password}`,
-      message: `${MESSAGES.loginRequired}`
+      message: `${MESSAGES.loginRequired}`,
+      description: "empty username"
     },
     {
       name: "",
       password: "",
-      message: `${MESSAGES.pleaseProvideValidData}`
+      message: `${MESSAGES.pleaseProvideValidData}`,
+      description: "empty username and password"
     },
     {
       name: "ab",
       password: `${validCredentials.password}`,
-      message: `${MESSAGES.shortUsername}`
+      message: `${MESSAGES.shortUsername}`,
+      description: "short username"
     },
     {
       name: "testRandomName40symbolstestRandomName40sy",
       password: `${validCredentials.password}`,
-      message: `${MESSAGES.longUsername}`
+      message: `${MESSAGES.longUsername}`,
+      description: "long username"
     },
     {
       name: ` ${validCredentials.name}`,
       password: `${validCredentials.password}`,
-      message: `${MESSAGES.prefixPostfixSpaces}`
+      message: `${MESSAGES.prefixPostfixSpaces}`,
+      description: "prefix spaces in username"
     },
     {
       name: `${validCredentials.name} `,
       password: `${validCredentials.password}`,
-      message: `${MESSAGES.prefixPostfixSpaces}`
+      message: `${MESSAGES.prefixPostfixSpaces}`,
+      description: "postfix spaces in username"
     },
     {
       name: `   `,
       password: `${validCredentials.password}`,
-      message: `${MESSAGES.prefixPostfixSpaces}`
+      message: `${MESSAGES.prefixPostfixSpaces}`,
+      description: "only spaces in username"
     },
     {
       name: `${validCredentials.name}`,
       password: `Aafffff`,
-      message: `${MESSAGES.shortPassword}`
+      message: `${MESSAGES.shortPassword}`,
+      description: "short password"
     },
     {
       name: `${validCredentials.name}`,
       password: `testRandomName40symbolstestRandomName40sy`,
-      message: `${MESSAGES.pleaseProvideValidData}`
+      message: `${MESSAGES.pleaseProvideValidData}`,
+      description: "long password"
     },
     {
       name: `${validCredentials.name}`,
       password: `aafffffa`,
-      message: `${MESSAGES.pleaseProvideValidData}`
+      message: `${MESSAGES.pleaseProvideValidData}`,
+      description: "password without upper case"
     },
     {
       name: `${validCredentials.name}`,
       password: `AAFFFFFA`,
-      message: `${MESSAGES.passwordWithoutLowerCase}`
+      message: `${MESSAGES.passwordWithoutLowerCase}`,
+      description: "password without lower case"
     },
     {
       name: `${validCredentials.name}`,
       password: `        `,
-      message: `${MESSAGES.passwordRequired}`
+      message: `${MESSAGES.passwordRequired}`,
+      description: "password with only spaces"
     }
   ];
 
@@ -152,8 +173,8 @@ test.describe("[https://anatoly-karpovich.github.io/demo-login-form/] [Form Auth
     });
   }
 
-  for (const { name, password, message } of invalidCredentialsRegister) {
-    test(`Check validation message on Register form with login ${name} and password ${password}`, async ({ page }) => {
+  for (const { name, password, message, description } of invalidCredentialsRegister) {
+    test(`Check validation message on Register form with ${description}`, async ({ page }) => {
       const registerButtonOnLogin = page.locator("#registerOnLogin");
       const registerFormTitle = page.locator("#registerForm");
       const usernameInputOnRegister = page.locator("#userNameOnRegister");
