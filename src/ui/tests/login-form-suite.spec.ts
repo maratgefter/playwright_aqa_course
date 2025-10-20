@@ -48,7 +48,7 @@ test.describe("[https://anatoly-karpovich.github.io/demo-login-form/] [Form Auth
     {
       name: `${validCredentials.name}`,
       password: ``,
-      message: `${MESSAGES.passwordRequired}`,
+      message: MESSAGES.passwordRequired,
       description: "empty password"
     },
     {
