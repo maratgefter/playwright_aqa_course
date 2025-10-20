@@ -46,7 +46,7 @@ test.describe("[https://anatoly-karpovich.github.io/demo-login-form/] [Form Auth
 
   const invalidCredentialsLogin: ICase[] = [
     {
-      name: `${validCredentials.name}`,
+      name: validCredentials.name,
       password: ``,
       message: MESSAGES.passwordRequired,
       description: "empty password"
