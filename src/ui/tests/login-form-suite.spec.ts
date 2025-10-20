@@ -88,7 +88,7 @@ test.describe("[https://anatoly-karpovich.github.io/demo-login-form/] [Form Auth
       name: "ab",
       password: `${validCredentials.password}`,
       message: `${MESSAGES.shortUsername}`,
-      description: "short username"
+      description: "2 symbols/characters in username"
     },
     {
       name: "testRandomName40symbolstestRandomName40sy",
