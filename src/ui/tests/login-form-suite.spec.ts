@@ -163,7 +163,7 @@ test.describe("[https://anatoly-karpovich.github.io/demo-login-form/] [Form Auth
       await passwordInput.fill(password);
       await submitrButton.click();
       await expect(errorMessage).toBeVisible();
-      await expect(errorMessage).toHaveText(`${message}`);
+      await expect(errorMessage).toHaveText(message);
     });
   }
 
