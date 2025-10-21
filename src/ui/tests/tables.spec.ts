@@ -10,7 +10,15 @@
 import test, { expect, Page } from "@playwright/test";
 
 test.describe("[https://the-internet.herokuapp.com/tables] [Tables]", () => {
-  const expectedTable = [
+  interface ITableRow {
+    "Last Name": string;
+    "First Name": string;
+    Email: string;
+    Due: string;
+    "Web Site": string;
+  }
+
+  const expectedTable: ITableRow[] = [
     {
       "Last Name": "Smith",
       "First Name": "John",
