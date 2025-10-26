@@ -29,7 +29,7 @@ test.describe("[Sales Portal] [Products]", async () => {
     await addNewProductPage.fillForm(productData);
     await addNewProductPage.clickSave();
     await productsListPage.waitForOpened();
-    await expect(productsListPage.toastMessage).toContainText(NOTIFICATIONS.PRODUCT_CREATED);
+    expect(productsListPage.toastMessage).toHaveText(NOTIFICATIONS.PRODUCT_CREATED);
     await expect(productsListPage.tableRowByName(productData.name)).toBeVisible();
     const productFromTable = await productsListPage.getProductData(productData.name);
     const expectedProduct = _.omit(productData, ["notes", "amount"]);
