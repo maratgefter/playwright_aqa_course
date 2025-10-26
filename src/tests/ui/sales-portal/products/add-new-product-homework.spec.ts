@@ -6,6 +6,7 @@ import { HomePage } from "ui/pages/home.page";
 import { AddNewProductPage } from "ui/pages/products/addNewProduct.page";
 import { ProductsListPage } from "ui/pages/products/productsList.page";
 import { SignInPage } from "ui/pages/signin.page";
+import _ from "lodash";
 
 test.describe("[Sales Portal] [Products]", async () => {
   test("Add new product e2e", async ({ page }) => {
