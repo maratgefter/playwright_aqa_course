@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { IProductTableRow } from "data/types/products-table-row";
-=======
 import { IProductInTable } from "data/types/product.types";
->>>>>>> 47f3f01 (add files from 23 lection)
 import { SalesPortalPage } from "../salesPortal.page";
 import { MANUFACTURERS } from "data/salesPortal/products/manufacturers";
 import { ProductDetailsModal } from "./details.modal";
@@ -35,22 +31,6 @@ export class ProductsListPage extends SalesPortalPage {
     await this.addNewProductButton.click();
   }
 
-<<<<<<< HEAD
-  async getProductTableRow(): Promise<IProductTableRow> {
-    const firstRow = this.page.locator("table tbody tr").first();
-    const cells = firstRow.locator("td");
-
-    const name = (await cells.nth(0).textContent())!;
-    const rawPrice = (await cells.nth(1).textContent())!;
-    const manufacturer = (await cells.nth(2).textContent())!;
-
-    return {
-      name,
-      price: `$${rawPrice.replace(/^\$/, "")}`,
-      manufacturer
-    };
-  }
-=======
   async getProductData(productName: string): Promise<IProductInTable> {
     //Variant 1
     // return {
@@ -99,5 +79,4 @@ export class ProductsListPage extends SalesPortalPage {
     }
     return data;
   }
->>>>>>> 47f3f01 (add files from 23 lection)
 }

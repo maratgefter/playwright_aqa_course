@@ -30,6 +30,9 @@ test.describe("[Sales Portal] [Products]", async () => {
     await productsListPage.waitForOpened();
     await expect(productsListPage.toastMessage).toContainText(NOTIFICATIONS.PRODUCT_CREATED);
     await expect(productsListPage.tableRowByName(productData.name)).toBeVisible();
-    await expect((await productsListPage.getProductTable).name);
+    const productFromTable = await productsListPage.getProductData(productData.name);
+    const expectedProduct = _.omit(productData, ["notes", "amount"]);
+    const actualProduct = _.omit(productFromTable, ["createdOn"]);
+    expect(actualProduct).toEqual(expectedProduct);
   });
 });
