@@ -16,6 +16,7 @@ test.describe("[Sales Portal] [Products]", async () => {
     await addNewProductPage.clickSave();
     await productsListPage.waitForOpened();
     expect(productsListPage.toastMessage).toHaveText(NOTIFICATIONS.PRODUCT_CREATED);
+    await productsListPage.notificationClose();
     await expect(productsListPage.tableRowByName(productData.name)).toBeVisible();
     const productFromTable = await productsListPage.getProductData(productData.name);
     const expectedProduct = _.omit(productData, ["notes", "amount"]);
@@ -25,6 +26,8 @@ test.describe("[Sales Portal] [Products]", async () => {
     const { deleteModal } = productsListPage;
     await deleteModal.waitForOpened();
     await deleteModal.clickYesDeleteButton();
+    expect(productsListPage.toastMessage).toHaveText(NOTIFICATIONS.PRODUCT_DELETED);
+    await productsListPage.notificationClose();
     await productsListPage.waitForOpened();
     expect(productsListPage.tableRowByName(productData.name)).toHaveCount(0);
   });
