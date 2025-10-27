@@ -31,6 +31,10 @@ export class ProductsListPage extends SalesPortalPage {
     await this.addNewProductButton.click();
   }
 
+  async clickDeleteProduct(productName: string) {
+    await this.deleteButton(productName).click();
+  }
+
   async getProductData(productName: string): Promise<IProductInTable> {
     //Variant 1
     // return {

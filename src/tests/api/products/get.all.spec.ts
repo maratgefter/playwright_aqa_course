@@ -1,6 +1,6 @@
 import test, { expect } from "@playwright/test";
 import { apiConfig } from "config/apiConfig";
-import { credentials } from "config/env";
+import { adminCredentials } from "config/env";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
 import { loginSchema } from "data/schemas/auth/login.schema";
 import { createProductSchema } from "data/schemas/products/create.schema";
@@ -27,7 +27,7 @@ test.describe("[API] [Sales Portal] [Products]", () => {
 
   test("Get All Products", async ({ request }) => {
     const loginResponse = await request.post(baseURL + endpoints.login, {
-      data: credentials,
+      data: adminCredentials,
       headers: {
         "content-type": "application/json"
       }
