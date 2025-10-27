@@ -12,11 +12,11 @@ export class ProductDeleteModal extends SalesPortalPage {
     await this.closeButton.click();
   }
 
-  async clickYesDeleteButton() {
+  async clickCancelButton() {
     await this.cancelButton.click();
   }
 
-  async clickEdit() {
+  async clickYesDeleteButton() {
     await this.yesDeleteButton.click();
   }
 }
