@@ -1,5 +1,5 @@
 import test, { expect } from "@playwright/test";
-import { adminCredentials } from "config/env";
+import { userCredentials } from "config/env";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
 import { HomePage } from "ui/pages/home.page";
@@ -9,7 +9,7 @@ import { SignInPage } from "ui/pages/signin.page";
 import _ from "lodash";
 
 test.describe("[Sales Portal] [Products]", async () => {
-  test("Add new product e2e", async ({ page }) => {
+  test("crud product e2e", async ({ page }) => {
     const homePage = new HomePage(page);
     const productsListPage = new ProductsListPage(page);
     const addNewProductPage = new AddNewProductPage(page);
@@ -17,7 +17,7 @@ test.describe("[Sales Portal] [Products]", async () => {
     const productData = generateProductData();
 
     await homePage.open();
-    await signInPage.fillCredentials(adminCredentials.username, adminCredentials.password);
+    await signInPage.fillCredentials(userCredentials.username, userCredentials.password);
     await signInPage.clickOnLoginButton();
     await homePage.waitForOpened();
     await homePage.clickOnViewModule("Products");
@@ -33,5 +33,6 @@ test.describe("[Sales Portal] [Products]", async () => {
     const expectedProduct = _.omit(productData, ["notes", "amount"]);
     const actualProduct = _.omit(productFromTable, ["createdOn"]);
     expect(actualProduct).toEqual(expectedProduct);
+    await productsListPage.clickDeleteProduct(productData.name);
   });
 });
