@@ -1,7 +1,7 @@
-import { SALES_PORTAL_URL } from "./env";
+import { SALES_PORTAL_API_URL } from "./env";
 
 export const apiConfig = {
-  baseURL: SALES_PORTAL_URL,
+  baseURL: SALES_PORTAL_API_URL,
   endpoints: {
     products: "/api/products",
     productById: (id: string) => `/api/products/${id}/`,
