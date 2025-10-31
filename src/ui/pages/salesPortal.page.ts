@@ -5,6 +5,7 @@ import { SALES_PORTAL_URL } from "config/env";
 export abstract class SalesPortalPage extends BasePage {
   readonly spinner = this.page.locator(".spinner-border");
   readonly toastMessage = this.page.locator(".toast-body");
+  readonly notificationCloseButton = this.page.locator("div.d-flex button[title = 'Close']");
   abstract readonly uniqueElement: Locator;
 
   async waitForOpened() {
@@ -19,5 +20,10 @@ export abstract class SalesPortalPage extends BasePage {
   async open() {
     console.log(SALES_PORTAL_URL);
     await this.page.goto(SALES_PORTAL_URL);
+  }
+
+  async notificationClose() {
+    await expect(this.notificationCloseButton).toHaveCount(1);
+    await this.notificationCloseButton.click();
   }
 }
