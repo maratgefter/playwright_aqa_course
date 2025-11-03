@@ -29,6 +29,6 @@ test.describe("[Sales Portal] [Products]", async () => {
     expect(productsListPage.toastMessage).toHaveText(NOTIFICATIONS.PRODUCT_DELETED);
     await productsListPage.notificationClose();
     await productsListPage.waitForOpened();
-    expect(productsListPage.tableRowByName(productData.name)).toHaveCount(0);
+    await expect(productsListPage.tableRowByName(productData.name)).not.toBeVisible();
   });
 });
