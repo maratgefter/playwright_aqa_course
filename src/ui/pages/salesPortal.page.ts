@@ -23,7 +23,7 @@ export abstract class SalesPortalPage extends BasePage {
   }
 
   async notificationClose() {
-    await expect(this.notificationCloseButton).toHaveCount(1);
+    await expect(this.notificationCloseButton).toBeVisible();
     await this.notificationCloseButton.click();
   }
 }
