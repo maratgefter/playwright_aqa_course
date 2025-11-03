@@ -8,7 +8,7 @@ import { validateResponse } from "utils/validateResponse.utils";
 const { baseURL, endpoints } = apiConfig;
 
 test.describe("[API] [Sales Portal] [Login]", () => {
-  test("Create Product", async ({ request }) => {
+  test("Login", async ({ request }) => {
     const loginResponse = await request.post(baseURL + endpoints.login, {
       data: credentials,
       headers: {
