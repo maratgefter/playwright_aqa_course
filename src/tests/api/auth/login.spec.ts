@@ -1,29 +1,21 @@
-import test, { expect } from "@playwright/test";
-import { apiConfig } from "config/apiConfig";
-import { adminCredentials } from "config/env";
+import { test, expect } from "fixtures/api.fixture";
+import { credentials } from "config/env";
 import { loginSchema } from "data/schemas/auth/login.schema";
 import { STATUS_CODES } from "data/statusCodes";
-import { validateResponse } from "utils/validateResponse.utils";
-
-const { baseURL, endpoints } = apiConfig;
+import { validateResponse } from "utils/validation/validateResponse.utils";
 
 test.describe("[API] [Sales Portal] [Login]", () => {
-  test("Login", async ({ request }) => {
-    const loginResponse = await request.post(baseURL + endpoints.login, {
-      data: adminCredentials,
-      headers: {
-        "content-type": "application/json"
-      }
-    });
+  test("Login", async ({ loginApi }) => {
+    const loginResponse = loginApi.login(credentials);
 
-    await validateResponse(loginResponse, {
+    validateResponse(await loginResponse, {
       status: STATUS_CODES.OK,
       schema: loginSchema,
       IsSuccess: true,
       ErrorMessage: null
     });
 
-    const headers = loginResponse.headers();
+    const headers = (await loginResponse).headers;
     expect(headers["authorization"]).toBeTruthy();
   });
 });

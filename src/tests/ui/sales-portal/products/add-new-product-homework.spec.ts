@@ -1,5 +1,5 @@
 import test, { expect } from "@playwright/test";
-import { adminCredentials } from "config/env";
+import { credentials } from "config/env";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
 import { HomePage } from "ui/pages/home.page";
@@ -17,7 +17,7 @@ test.describe("[Sales Portal] [Products]", async () => {
     const productData = generateProductData();
 
     await homePage.open();
-    await signInPage.fillCredentials(adminCredentials.username, adminCredentials.password);
+    await signInPage.fillCredentials(credentials.username, credentials.password);
     await signInPage.clickOnLoginButton();
     await homePage.waitForOpened();
     await homePage.clickOnViewModule("Products");
