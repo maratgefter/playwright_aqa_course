@@ -1,5 +1,5 @@
 import test, { expect } from "@playwright/test";
-import { adminCredentials } from "config/env";
+import { credentials } from "config/env";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
 // import { MANUFACTURERS } from "data/salesPortal/products/manufacturers";
@@ -52,8 +52,8 @@ test.describe("[Sales Portal] [Products]", async () => {
     // await page.goto(salesPortalUrl); //fix
     await homePage.open();
     await expect(emailInput).toBeVisible();
-    await emailInput.fill(adminCredentials.username);
-    await passwordInput.fill(adminCredentials.password);
+    await emailInput.fill(credentials.username);
+    await passwordInput.fill(credentials.password);
     await loginButton.click();
 
     await homePage.waitForOpened();
@@ -107,7 +107,7 @@ test.describe("[Sales Portal] [Products]", async () => {
     // await passwordInput.fill(credentials.password);
     // await loginButton.click();
 
-    await signInPage.fillCredentials(adminCredentials.username, adminCredentials.password);
+    await signInPage.fillCredentials(credentials.username, credentials.password);
     await signInPage.clickOnLoginButton();
 
     await homePage.waitForOpened();
