@@ -6,16 +6,16 @@ import { validateResponse } from "utils/validation/validateResponse.utils";
 
 test.describe("[API] [Sales Portal] [Login]", () => {
   test("Login", async ({ loginApi }) => {
-    const loginResponse = loginApi.login(credentials);
+    const loginResponse = await loginApi.login(credentials);
 
-    validateResponse(await loginResponse, {
+    validateResponse(loginResponse, {
       status: STATUS_CODES.OK,
       schema: loginSchema,
       IsSuccess: true,
       ErrorMessage: null
     });
 
-    const headers = (await loginResponse).headers;
+    const headers = loginResponse.headers;
     expect(headers["authorization"]).toBeTruthy();
   });
 });
