@@ -15,7 +15,7 @@ test.describe("[API] [Sales Portal] [Login]", () => {
       ErrorMessage: null
     });
 
-    const headers = (await loginResponse).headers;
+    const headers = loginResponse.headers;
     expect(headers["authorization"]).toBeTruthy();
   });
 });
