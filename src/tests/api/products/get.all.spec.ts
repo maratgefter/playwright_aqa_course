@@ -2,7 +2,9 @@ import test, { expect } from "@playwright/test";
 import { apiConfig } from "config/apiConfig";
 import { adminCredentials } from "config/env";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
+import { loginSchema } from "data/schemas/auth/login.schema";
 import { createProductSchema } from "data/schemas/products/create.schema";
+import { getAllProductsSchema } from "data/schemas/products/get.all.products.schema";
 import { STATUS_CODES } from "data/statusCodes";
 import _ from "lodash";
 import { validateResponse } from "utils/validateResponse.utils";
@@ -14,7 +16,7 @@ test.describe("[API] [Sales Portal] [Products]", () => {
   let token = "";
 
   test.afterEach(async ({ request }) => {
-    const response = await request.delete(`${baseURL}${endpoints.productById(id)}`, {
+    const response = await request.delete(`${baseURL}${endpoints.products}/${id}`, {
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`
@@ -23,19 +25,19 @@ test.describe("[API] [Sales Portal] [Products]", () => {
     expect(response.status()).toBe(STATUS_CODES.DELETED);
   });
 
-  test("Update product", async ({ request }) => {
-    //TODO: Preconditions
+  test("Get All Products", async ({ request }) => {
     const loginResponse = await request.post(baseURL + endpoints.login, {
       data: adminCredentials,
       headers: {
         "content-type": "application/json"
       }
     });
-    const loginBody = await loginResponse.json();
-    expect.soft(loginResponse.status()).toBe(STATUS_CODES.OK);
-    expect.soft(loginBody.IsSuccess).toBe(true);
-    expect.soft(loginBody.ErrorMessage).toBe(null);
-    expect.soft(loginBody.User.username).toBe(adminCredentials.username);
+    await validateResponse(loginResponse, {
+      status: STATUS_CODES.OK,
+      schema: loginSchema,
+      IsSuccess: true,
+      ErrorMessage: null
+    });
 
     const headers = loginResponse.headers();
     token = headers["authorization"]!;
@@ -64,28 +66,22 @@ test.describe("[API] [Sales Portal] [Products]", () => {
 
     id = actualProductData._id;
 
-    //TODO: Action
-
-    const updatedProductData = generateProductData();
-
-    const updatedProductResponse = await request.put(`${baseURL}${endpoints.productById(id)}`, {
-      data: updatedProductData,
+    const getAllProductsResponse = await request.get(`${baseURL}${endpoints.productsAll}`, {
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`
       }
     });
-
-    //TODO: Assert
-    const updateProductBody = await updatedProductResponse.json();
-    await validateResponse(updatedProductResponse, {
+    await validateResponse(getAllProductsResponse, {
       status: STATUS_CODES.OK,
-      schema: createProductSchema,
+      schema: getAllProductsSchema,
       IsSuccess: true,
       ErrorMessage: null
     });
 
-    expect(_.omit(updateProductBody.Product, ["_id", "createdOn"])).toEqual(updatedProductData);
-    expect(id).toBe(updateProductBody.Product._id);
+    const getAllProductsBody = await getAllProductsResponse.json();
+
+    const product = getAllProductsBody["Products"].find((prod: { _id: string }) => prod._id === id);
+    expect(_.omit(product, ["_id", "createdOn"])).toEqual(productData);
   });
 });

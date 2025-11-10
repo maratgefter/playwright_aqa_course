@@ -1,6 +1,6 @@
 import test, { expect } from "@playwright/test";
 import { apiConfig } from "config/apiConfig";
-import { credentials } from "config/env";
+import { adminCredentials } from "config/env";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
 import { createProductSchema } from "data/schemas/products/create.schema";
 import { STATUS_CODES } from "data/statusCodes";
@@ -34,7 +34,7 @@ test.describe("[API] [Sales Portal] [Products]", () => {
     //body: from env
 
     const loginResponse = await request.post(baseURL + endpoints.login, {
-      data: credentials,
+      data: adminCredentials,
       headers: {
         "content-type": "application/json"
       }
@@ -43,7 +43,7 @@ test.describe("[API] [Sales Portal] [Products]", () => {
     expect.soft(loginResponse.status()).toBe(STATUS_CODES.OK);
     expect.soft(loginBody.IsSuccess).toBe(true);
     expect.soft(loginBody.ErrorMessage).toBe(null);
-    expect.soft(loginBody.User.username).toBe(credentials.username);
+    expect.soft(loginBody.User.username).toBe(adminCredentials.username);
 
     const headers = loginResponse.headers();
     token = headers["authorization"]!;
