@@ -5,25 +5,23 @@ import { SALES_PORTAL_URL } from "config/env";
 export abstract class SalesPortalPage extends BasePage {
   readonly spinner = this.page.locator(".spinner-border");
   readonly toastMessage = this.page.locator(".toast-body");
-  readonly notificationCloseButton = this.page.locator("div.d-flex button[title = 'Close']");
+  readonly toastMwssageClose = this.page.locator("button[title='Close']");
   abstract readonly uniqueElement: Locator;
 
   async waitForOpened() {
-    await expect(this.uniqueElement).toBeVisible();
+    await expect(this.uniqueElement).toBeVisible({ timeout: 10000 });
     await this.waitForSpinners();
   }
 
   async waitForSpinners() {
-    await expect(this.spinner).toHaveCount(0);
+    await expect(this.spinner).toHaveCount(0, { timeout: 10000 });
   }
 
-  async open() {
-    console.log(SALES_PORTAL_URL);
-    await this.page.goto(SALES_PORTAL_URL);
+  async open(route?: string) {
+    await this.page.goto(SALES_PORTAL_URL + route);
   }
 
-  async notificationClose() {
-    await expect(this.notificationCloseButton).toBeVisible();
-    await this.notificationCloseButton.click();
+  async closeToastMessage() {
+    await this.toastMwssageClose.click();
   }
 }
