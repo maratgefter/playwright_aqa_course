@@ -17,7 +17,7 @@ test.describe("[Sales Portal] [Products]", async () => {
     const productData = generateProductData();
 
     await homePage.open();
-    await signInPage.fillCredentials(credentials.username, credentials.password);
+    await signInPage.fillCredentials(credentials);
     await signInPage.clickOnLoginButton();
     await homePage.waitForOpened();
     await homePage.clickOnViewModule("Products");

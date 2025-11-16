@@ -107,7 +107,7 @@ test.describe("[Sales Portal] [Products]", async () => {
     // await passwordInput.fill(credentials.password);
     // await loginButton.click();
 
-    await signInPage.fillCredentials(credentials.username, credentials.password);
+    await signInPage.fillCredentials(credentials);
     await signInPage.clickOnLoginButton();
 
     await homePage.waitForOpened();
