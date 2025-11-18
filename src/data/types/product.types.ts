@@ -52,3 +52,11 @@ export interface IGetProductsParams {
 }
 
 export type ProductsTableHeader = "Name" | "Price" | "Manufacturer" | "Created On";
+
+export interface ITopProduct extends Pick<IProduct, "name"> {
+  sales: number;
+}
+
+export interface IProductFromOrder extends IProduct, ID {
+  received: boolean;
+}

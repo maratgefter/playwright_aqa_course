@@ -21,4 +21,10 @@ export interface IResponse<T extends object | null> {
   body: T;
 }
 
+export interface IDate {
+  year: number;
+  month: number;
+  day: number;
+}
+
 export type SortOrder = "asc" | "desc";
