@@ -1,4 +1,4 @@
-import test, { expect } from "@playwright/test";
+import { test, expect } from "fixtures/business.fixture";
 import { credentials } from "config/env";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
@@ -7,7 +7,6 @@ import { generateProductData } from "data/salesPortal/products/generateProductDa
 import { HomePage } from "ui/pages/home.page";
 import { AddNewProductPage } from "ui/pages/products/addNewProduct.page";
 import { ProductsListPage } from "ui/pages/products/productsList.page";
-import { SignInPage } from "ui/pages/signin.page";
 
 // const productData: IProduct = {
 //   name: "Product" + Date.now(),
@@ -18,6 +17,9 @@ import { SignInPage } from "ui/pages/signin.page";
 // };
 
 test.describe("[Sales Portal] [Products]", async () => {
+  let id = "";
+  let token = "";
+
   test.skip("Add new product OLD", async ({ page }) => {
     const homePage = new HomePage(page);
     const productsListPage = new ProductsListPage(page);
@@ -89,26 +91,44 @@ test.describe("[Sales Portal] [Products]", async () => {
     await expect(productsListPage.tableRowByName(productData.name)).toBeVisible();
   });
 
+  test("Add new product with services", async ({
+    loginUIService,
+    // homeUIService,
+    // productsListUIService,
+    addNewProductUIService,
+    productsListPage
+  }) => {
+    token = await loginUIService.loginAsAdmin();
+    // await homeUIService.openModule("Products");
+    // await productsListUIService.openAddNewProductPage();
+    await addNewProductUIService.open();
+    const createdProduct = await addNewProductUIService.create();
+    id = createdProduct._id;
+    await expect(productsListPage.toastMessage).toContainText(NOTIFICATIONS.PRODUCT_CREATED);
+    await expect(productsListPage.tableRowByName(createdProduct.name)).toBeVisible();
+  });
+
+  test.afterEach(async ({ productsApiService }) => {
+    if (id) await productsApiService.delete(token, id);
+    id = "";
+  });
+
   test("Add new product", async ({ page }) => {
     const homePage = new HomePage(page);
     const productsListPage = new ProductsListPage(page);
     const addNewProductPage = new AddNewProductPage(page);
-    const signInPage = new SignInPage(page);
 
     //login page
-    // const emailInput = page.locator("#emailinput");
-    // const passwordInput = page.locator("#passwordinput");
-    // const loginButton = page.locator("button[type='submit']");
+    const emailInput = page.locator("#emailinput");
+    const passwordInput = page.locator("#passwordinput");
+    const loginButton = page.locator("button[type='submit']");
 
     await homePage.open();
 
-    // await expect(emailInput).toBeVisible();
-    // await emailInput.fill(credentials.username);
-    // await passwordInput.fill(credentials.password);
-    // await loginButton.click();
-
-    await signInPage.fillCredentials(credentials);
-    await signInPage.clickOnLoginButton();
+    await expect(emailInput).toBeVisible();
+    await emailInput.fill(credentials.username);
+    await passwordInput.fill(credentials.password);
+    await loginButton.click();
 
     await homePage.waitForOpened();
     await homePage.clickOnViewModule("Products");
@@ -123,8 +143,3 @@ test.describe("[Sales Portal] [Products]", async () => {
     await expect(productsListPage.tableRowByName(productData.name)).toBeVisible();
   });
 });
-
-//locators !
-//waiterForPage !
-//product data generator
-//teardown
