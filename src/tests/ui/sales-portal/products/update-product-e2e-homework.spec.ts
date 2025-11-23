@@ -5,7 +5,7 @@ test.describe("[Sales Portal] [Products]", async () => {
   let id = "";
   let token = "";
 
-  test("Add new product with services", async ({
+  test("Update new product with services", async ({
     loginUIService,
     productsApiService,
     productsListPage,

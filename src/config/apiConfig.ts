@@ -7,6 +7,8 @@ export const apiConfig = {
     productById: (id: string) => `/api/products/${id}/`,
     productsAll: "/api/products/all",
     login: "/api/login",
-    metrics: "/api/metrics"
+    metrics: "/api/metrics",
+    customers: "/api/customers",
+    customerById: (id: string) => `/api/customers/${id}/`
   }
 };
