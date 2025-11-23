@@ -11,6 +11,11 @@ import { AddNewProductUIService } from "ui/service/addNewProduct.ui-service";
 import { HomeUIService } from "ui/service/home.ui-service";
 import { LoginUIService } from "ui/service/login.ui-service";
 import { ProductsListUIService } from "ui/service/productsList.ui-service";
+import { UpdateProductPage } from "ui/pages/products";
+import { UpdateProductUIService } from "ui/service/updateProduct.ui-service";
+import { AddCustomerPage, CustomersListPage } from "ui/pages/customers";
+import { AddCustomerUIService } from "ui/service/addCustomer.ui-service";
+import { CustomersListUIService } from "ui/service/customersList.ui-service";
 
 export interface IPages {
   //pages
@@ -18,12 +23,18 @@ export interface IPages {
   homePage: HomePage;
   productsListPage: ProductsListPage;
   addNewProductPage: AddNewProductPage;
+  updateProductPage: UpdateProductPage;
+  customersListPage: CustomersListPage;
+  addCustomerPage: AddCustomerPage;
 
   //ui-services
   homeUIService: HomeUIService;
   productsListUIService: ProductsListUIService;
   addNewProductUIService: AddNewProductUIService;
   loginUIService: LoginUIService;
+  updateProductUIService: UpdateProductUIService;
+  customersListUIService: CustomersListUIService;
+  addCustomerUIService: AddCustomerUIService;
 }
 
 export const test = base.extend<IPages>({
@@ -41,6 +52,15 @@ export const test = base.extend<IPages>({
   addNewProductPage: async ({ page }, use) => {
     await use(new AddNewProductPage(page));
   },
+  updateProductPage: async ({ page }, use) => {
+    await use(new UpdateProductPage(page));
+  },
+  customersListPage: async ({ page }, use) => {
+    await use(new CustomersListPage(page));
+  },
+  addCustomerPage: async ({ page }, use) => {
+    await use(new AddCustomerPage(page));
+  },
 
   //ui-services
   homeUIService: async ({ page }, use) => {
@@ -57,6 +77,15 @@ export const test = base.extend<IPages>({
 
   loginUIService: async ({ page }, use) => {
     await use(new LoginUIService(page));
+  },
+  updateProductUIService: async ({ page }, use) => {
+    await use(new UpdateProductUIService(page));
+  },
+  customersListUIService: async ({ page }, use) => {
+    await use(new CustomersListUIService(page));
+  },
+  addCustomerUIService: async ({ page }, use) => {
+    await use(new AddCustomerUIService(page));
   }
 });
 
