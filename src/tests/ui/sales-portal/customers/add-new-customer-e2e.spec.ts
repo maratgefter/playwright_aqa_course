@@ -11,13 +11,13 @@ test.describe("[Sales Portal] [Customers]", () => {
     {
       tag: [TAGS.SMOKE, TAGS.REGRESSION, TAGS.UI, TAGS.VISUAL_REGRESSION]
     },
-    async ({ customersListPage, customersListUIService, addCustomerUIService }) => {
+    async ({ customersListPage, customersListUIService, addCustomerUIService, homePage }) => {
       token = await customersListPage.getAuthToken();
-      await customersListUIService.open();
-      await customersListUIService.openAddCustomerPage();
+      await homePage.clickOnViewModule("Customers");
+      await customersListPage.clickAddNewCustomer();
       const createdCustomer = await addCustomerUIService.create();
       id = createdCustomer._id;
-      await customersListUIService.open();
+      id = createdCustomer._id;
       await expect(customersListPage.toastMessage).toContainText(NOTIFICATIONS.CUSTOMER_CREATED);
       await expect(customersListPage.tableRowByName(createdCustomer.name)).toBeVisible();
     }
