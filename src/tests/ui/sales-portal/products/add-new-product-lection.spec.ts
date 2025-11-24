@@ -24,7 +24,7 @@ test.describe("[Sales Portal] [Products]", async () => {
   test(
     "Add new product with services",
     {
-      tag: [TAGS.SMOKE, TAGS.REGRESSION, TAGS.PRODUCTS]
+      tag: [TAGS.SMOKE, TAGS.REGRESSION, TAGS.UI, TAGS.VISUAL_REGRESSION]
     },
     async ({ addNewProductUIService, productsListPage }) => {
       await addNewProductUIService.open();
@@ -44,7 +44,7 @@ test.describe("[Sales Portal] [Products]", async () => {
   test.skip(
     "Add new product",
     {
-      tag: [TAGS.SMOKE, TAGS.REGRESSION, TAGS.PRODUCTS]
+      tag: [TAGS.SMOKE, TAGS.REGRESSION, TAGS.UI, TAGS.VISUAL_REGRESSION]
     },
     async ({ page }) => {
       const homePage = new HomePage(page);

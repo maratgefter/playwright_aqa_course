@@ -2,12 +2,13 @@ import { test, expect } from "fixtures/business.fixture";
 import { NOTIFICATIONS } from "data/salesPortal/notifications";
 import { generateProductData } from "data/salesPortal/products/generateProductData";
 import _ from "lodash";
+import { TAGS } from "data/tags";
 
 test.describe("[Sales Portal] [Products]", () => {
   let id = "";
   let token = "";
   //test with fixtures version 1
-  test("Product Details", async ({ loginAsAdmin, homePage, productsListPage, addNewProductPage }) => {
+  test.skip("Product Details", async ({ loginAsAdmin, homePage, productsListPage, addNewProductPage }) => {
     //login page
     // const emailInput = page.locator("#emailinput");
     // const passwordInput = page.locator("#passwordinput");
@@ -66,21 +67,21 @@ test.describe("[Sales Portal] [Products]", () => {
   //   expect(_.omit(actual, ["createdOn"])).toEqual(productData);
   // });
 
-  test("Product Details with services", async ({
-    loginUIService,
-    homeUIService,
-    productsListUIService,
-    productsApiService,
-    productsListPage
-  }) => {
-    token = await loginUIService.loginAsAdmin();
-    const createdProduct = await productsApiService.create(token);
-    id = createdProduct._id;
-    await homeUIService.openModule("Products");
-    await productsListUIService.openDetailsModal(createdProduct.name);
-    const actual = await productsListPage.detailsModal.getData();
-    productsListUIService.assertDetailsData(actual, createdProduct);
-  });
+  test(
+    "Product Details with services",
+    {
+      tag: [TAGS.REGRESSION, TAGS.UI, TAGS.VISUAL_REGRESSION]
+    },
+    async ({ productsListUIService, productsApiService, productsListPage }) => {
+      token = await productsListPage.getAuthToken();
+      const createdProduct = await productsApiService.create(token);
+      id = createdProduct._id;
+      await productsListUIService.open();
+      await productsListUIService.openDetailsModal(createdProduct.name);
+      const actual = await productsListPage.detailsModal.getData();
+      productsListUIService.assertDetailsData(actual, createdProduct);
+    }
+  );
 
   test.afterEach(async ({ productsApiService }) => {
     if (id) await productsApiService.delete(token, id);
