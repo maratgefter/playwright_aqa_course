@@ -20,8 +20,8 @@ export class ProductsApiService {
     return response.body.Product;
   }
 
-  async delete(token: string, id: string) {
-    const response = await this.productsApi.delete(id, token);
+  async delete(token: string, _id: string) {
+    const response = await this.productsApi.delete(_id, token);
     validateResponse(response, {
       status: STATUS_CODES.DELETED
     });
