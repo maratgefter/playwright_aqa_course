@@ -11,9 +11,9 @@ test.describe("[Sales Portal] [Customers]", () => {
     {
       tag: [TAGS.SMOKE, TAGS.REGRESSION, TAGS.UI, TAGS.VISUAL_REGRESSION]
     },
-    async ({ customersListPage, customersListUIService, addCustomerUIService, homePage }) => {
+    async ({ customersListPage, customersListUIService, addCustomerUIService }) => {
       token = await customersListPage.getAuthToken();
-      await homePage.clickOnViewModule("Customers");
+      await customersListUIService.open();
       await customersListPage.clickAddNewCustomer();
       const createdCustomer = await addCustomerUIService.create();
       id = createdCustomer._id;
