@@ -5,6 +5,7 @@ import { STATUS_CODES } from "data/statusCodes";
 import _ from "lodash";
 import { validateResponse } from "utils/validation/validateResponse.utils";
 import { positiveCasesProductCreate } from "data/salesPortal/products/createProductCases";
+import { TAGS } from "data/tags";
 
 test.describe("[API] [Sales Portal] [Products]", () => {
   let id = "";
@@ -19,20 +20,26 @@ test.describe("[API] [Sales Portal] [Products]", () => {
   });
 
   for (const createCase of positiveCasesProductCreate) {
-    test(`Create Product with "${createCase.description}"`, async ({ productsApi }) => {
-      const productData = { ...generateProductData(), ...createCase.testData };
-      const createdProduct = await productsApi.create(productData, token);
-      validateResponse(createdProduct, {
-        status: STATUS_CODES.CREATED,
-        schema: createProductSchema,
-        IsSuccess: true,
-        ErrorMessage: null
-      });
+    test(
+      `Create Product with "${createCase.description}"`,
+      {
+        tag: [TAGS.SMOKE, TAGS.REGRESSION, TAGS.API]
+      },
+      async ({ productsApi }) => {
+        const productData = { ...generateProductData(), ...createCase.testData };
+        const createdProduct = await productsApi.create(productData, token);
+        validateResponse(createdProduct, {
+          status: STATUS_CODES.CREATED,
+          schema: createProductSchema,
+          IsSuccess: true,
+          ErrorMessage: null
+        });
 
-      id = createdProduct.body.Product._id;
+        id = createdProduct.body.Product._id;
 
-      const actualProductData = createdProduct.body.Product;
-      expect(_.omit(actualProductData, ["_id", "createdOn"])).toEqual(productData);
-    });
+        const actualProductData = createdProduct.body.Product;
+        expect(_.omit(actualProductData, ["_id", "createdOn"])).toEqual(productData);
+      }
+    );
   }
 });
